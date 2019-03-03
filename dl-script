@@ -19,7 +19,7 @@ download()
   file="${zoom}-${col}-${row}.jpg"
 
   if [ ! -r ${file} ]; then
-    curl -o "${zoom}-${col}-${row}.jpg" -A "tefenua2print/1.0" "https://www.tefenua.gov.pf/tefenua/api/wmts?layer=TEFENUA%3AFOND&style=&tilematrixset=EPSG%3A4326&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix=EPSG%3A4326%3A${zoom}&TileCol=${col}&TileRow=${row}"
+    curl -o "${file}" -A "tefenua2print/1.0" "https://www.tefenua.gov.pf/tefenua/api/wmts?layer=TEFENUA%3AFOND&style=&tilematrixset=EPSG%3A4326&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix=EPSG%3A4326%3A${zoom}&TileCol=${col}&TileRow=${row}"
   fi
 }
 
