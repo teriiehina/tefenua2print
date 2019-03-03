@@ -22,6 +22,6 @@ while [ $y -le $ymax ]; do
 done
 
 cmdline="${cmdline} -tile $((xmax - xmin + 1))x$((ymax - ymin + 1))"
-cmdline="${cmdline} -geometry +0+0 out.png"
+cmdline="${cmdline} -geometry +0+0 out.jpg"
 
 $cmdline
