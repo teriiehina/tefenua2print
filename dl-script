@@ -1,0 +1,48 @@
+#!/bin/sh
+
+if [ $# -ne 6 ]; then
+  echo "usage: $0 zoom xmin xmax ymin ymax zoommax" >&2
+  exit 1
+fi
+
+zoom=$1
+xmin=$2 xmax=$3
+ymin=$4 ymax=$5
+zoommax=$6
+
+set -e
+
+download()
+{
+  zoom=$1 col=$2 row=$3
+
+  file="${zoom}-${col}-${row}.jpg"
+
+  if [ ! -r ${file} ]; then
+    fetch -o "${zoom}-${col}-${row}.jpg" "https://www.tefenua.gov.pf/tefenua/api/wmts?layer=TEFENUA%3AFOND&style=&tilematrixset=EPSG%3A4326&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix=EPSG%3A4326%3A${zoom}&TileCol=${col}&TileRow=${row}"
+  fi
+}
+
+while [ $zoom -le $zoommax ]; do
+  x=$xmin
+  while [ $x -le $xmax ]; do
+    y=$ymin
+    while [ $y -le $ymax ]; do
+      download $zoom $x $y
+      y=$((y + 1))
+    done
+    x=$((x + 1))
+  done
+  zoom=$((zoom + 1))
+  xmin=$((xmin * 2))
+  xmax=$(((xmax + 1) * 2 - 1))
+  ymin=$((ymin * 2))
+  ymax=$(((ymax + 1) * 2 - 1))
+done
+
+#download 11 321 1211
+
+#download 12 642 2422
+#download 12 643 2422
+#download 12 642 2423
+#download 12 643 2423

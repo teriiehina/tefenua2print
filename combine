@@ -1,0 +1,27 @@
+#!/bin/sh
+
+if [ $# -ne 5 ]; then
+  echo "usage: $0 zoom xmin xmax ymin ymax" >&2
+  exit 1
+fi
+
+zoom=$1
+xmin=$2 xmax=$3
+ymin=$4 ymax=$5
+
+cmdline="montage"
+
+y=$ymin
+while [ $y -le $ymax ]; do
+  x=$xmin
+  while [ $x -le $xmax ]; do
+    cmdline="${cmdline} ${zoom}-${x}-${y}.jpg"
+    x=$((x + 1))
+  done
+  y=$((y + 1))
+done
+
+cmdline="${cmdline} -tile $((xmax - xmin + 1))x$((ymax - ymin + 1))"
+cmdline="${cmdline} -geometry +0+0 out.png"
+
+$cmdline
