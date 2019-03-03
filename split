@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ $# -ne 3 ]; then
+  echo "usage: $0 input xout yout" >&2
+  exit 1
+fi
+
+input=$1
+xout=$2
+yout=$3
+
+cmdline="convert"
+
+${cmdline} $input -crop ${xout}x${yout} out.jpg
+${cmdline} $(ls out-*.jpg | sort -V) out.pdf
