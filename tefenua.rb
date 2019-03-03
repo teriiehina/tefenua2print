@@ -12,8 +12,21 @@ def coords_to_tiles(lat_deg, lng_deg, zoom)
   y = ((1.0 -  num / den ) / 2.0 * n1).to_i
   # y = ((1.0 - ( Math::log(Math::tan(lat_rad) + (1 / Math::cos(lat_rad))) / Math::PI)) * n2).to_i
   
+  {:x => x * 2, :y => y + 12 * (zoom-7)}
+end
+
+def coords_to_tiles_2(lat_deg, lng_deg, zoom)
+  # puts "#{lat_deg},#{lng_deg}, #{zoom}"
+  lat_rad = lat_deg/180 * Math::PI
+  lng_rad = lng_deg/180 * Math::PI
+
+  a = 6378137.0
+  x = a * lng_rad
+  y = a * Math::log(Math::tan(lat_rad/2 + Math::PI/4))
+  
   {:x => x, :y =>y}
 end
+
 
 lat1  = ARGV[0].to_f
 long1 = ARGV[1].to_f
@@ -31,6 +44,8 @@ value = %x( echo 'hi' )
 cmd1 = "./dl-script #{zoom} #{first[:x]} #{last[:x]} #{first[:y]} #{last[:y]} #{zoom}"
 cmd2 = "./combine   #{zoom} #{first[:x]} #{last[:x]} #{first[:y]} #{last[:y]}"
 
-%x( rm **.jpg )
+# puts cmd1
+
+%x( rm *.jpg )
 value1 = %x( #{cmd1} )
 value2 = %x( #{cmd2} )
