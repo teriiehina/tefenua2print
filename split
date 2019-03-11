@@ -12,4 +12,4 @@ yout=$3
 cmdline="convert"
 
 ${cmdline} $input -crop ${xout}x${yout} out.jpg
-${cmdline} $(ls out-*.jpg | sort -V) out.pdf
+${cmdline} $(ls -v out-*.jpg) out.pdf
